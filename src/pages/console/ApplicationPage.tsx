@@ -95,14 +95,6 @@ export const ApplicationPage: React.FC = () => {
       setError('15 yaş ve altı katılımcılar için veli izni onayı zorunludur.');
       return;
     }
-    if (!isValidHttpUrl(vibeUrl)) {
-      setError('Vibe Coding web sitesi bağlantısı geçerli bir http(s) adresi olmalıdır.');
-      return;
-    }
-    if (!isValidHttpUrl(portfolioUrl)) {
-      setError('Portfolyo bağlantısı geçerli bir http(s) adresi olmalıdır.');
-      return;
-    }
     if (!rulesAccepted || !aiStudioAccepted) {
       setError('Devam etmek için her iki onay kutusunu da işaretlemelisiniz.');
       return;
@@ -117,9 +109,9 @@ export const ApplicationPage: React.FC = () => {
         email: email.trim(),
         birth_year: Number(birthYear),
         guardian_consent: guardian,
-        reference_design_url: vibeUrl.trim(),
+        reference_design_url: vibeUrl.trim() || 'https://gurx.gurlabs.com',
         reference_type: portfolioType,
-        portfolio_url: portfolioUrl.trim(),
+        portfolio_url: portfolioUrl.trim() || null,
       });
       if (profile && profile.birth_year !== Number(birthYear)) {
         await updateProfile({ birth_year: Number(birthYear) });
@@ -268,67 +260,6 @@ export const ApplicationPage: React.FC = () => {
           )}
         </ConsoleSection>
 
-        <ConsoleSection
-          id="referanslar"
-          title="Referanslar"
-          description="Her iki bağlantı da herkese açık ve erişilebilir olmalıdır."
-        >
-          <div>
-            <label htmlFor="ap-vibe" className="gx-label">
-              Vibe Coding ile yaptığınız web sitesi <span className="text-rose-500">*</span>
-            </label>
-            <input
-              id="ap-vibe"
-              type="url"
-              required
-              value={vibeUrl}
-              onChange={(e) => setVibeUrl(e.target.value)}
-              className="gx-input"
-              placeholder="https://projem.vercel.app"
-            />
-          </div>
-
-          <div>
-            <label className="gx-label">
-              Portfolyo / Profil bağlantısı <span className="text-rose-500">*</span>
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label htmlFor="ap-portfolio-type" className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1 block">
-                  Bağlantı Türü
-                </label>
-                <select
-                  id="ap-portfolio-type"
-                  value={portfolioType}
-                  onChange={(e) => setPortfolioType(e.target.value as ReferenceType)}
-                  className="gx-input w-full"
-                >
-                  {REFERENCE_TYPES.map((t) => (
-                    <option key={t.value} value={t.value}>
-                      {t.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="ap-portfolio-url" className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1 block">
-                  URL Adresi
-                </label>
-                <input
-                  id="ap-portfolio-url"
-                  type="url"
-                  required
-                  value={portfolioUrl}
-                  onChange={(e) => setPortfolioUrl(e.target.value)}
-                  className="gx-input w-full"
-                  placeholder="https://github.com/kullaniciadi veya https://portfolyom.com"
-                />
-              </div>
-            </div>
-          </div>
-        </ConsoleSection>
-
         <ConsoleSection id="onaylar" title="Onaylar">
           <label className="flex items-start gap-3 text-sm text-slate-600 cursor-pointer">
             <input
@@ -370,7 +301,6 @@ export const ApplicationPage: React.FC = () => {
                 'Ad soyad ve e-posta kayıt bilgilerinizden gelir',
                 'Doğum yılı zorunludur ve yaş kontrolü yapılır',
                 '15 yaş ve altı için veli izni onayı gerekir',
-                '1 Vibe Coding sitesi + 1 portfolyo bağlantısı',
               ].map((item) => (
                 <li key={item} className="flex gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
