@@ -179,6 +179,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       },
     });
     if (error) throw error;
+
+    if (data.user) {
+      try {
+        await sb.from('profiles').upsert({
+          id: data.user.id,
+          email: input.email,
+          full_name: input.fullName,
+          username: `gurx-${data.user.id.slice(0, 8)}`,
+          role: input.email.toLowerCase() === 'zulfumirzagur23@gmail.com' ? 'admin' : 'participant',
+          referred_by: input.referredBy ?? null,
+        });
+      } catch {
+        /* ignore if RLS or triggers handle it */
+      }
+    }
+
     return { needsEmailConfirm: !data.session };
   }, []);
 
