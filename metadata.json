@@ -1,0 +1,6 @@
+{
+  "name": "GurX TM Design Award",
+  "description": "GurX TM Design Award resmi platformu. UI/UX, VibeCoding ve dijital tasarım yarışmaları, sertifika sorgulama ve organizasyon merkezi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

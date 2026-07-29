@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Kişiye özel ve oturum gerektiren alanlar
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /staff
+Disallow: /profil
+Disallow: /giris
+Disallow: /kayit
+Disallow: /auth/
+Disallow: /certificate/*/belge
+
+# Doğrulama sonuç sayfaları taranmasın, giriş sayfası taransın
+Disallow: /dogrula/
+Allow: /dogrula
+
+Sitemap: https://gurx.gurlabs.com/sitemap.xml
