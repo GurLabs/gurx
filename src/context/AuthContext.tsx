@@ -25,9 +25,9 @@ interface AuthContextValue {
   signInWithGoogle: (redirectTo?: string) => Promise<void>;
   signInWithGitHub: (redirectTo?: string) => Promise<void>;
   signInWithProvider: (provider: OAuthProvider, redirectTo?: string) => Promise<void>;
-  signInWithPassword: (email: string, password: string) => Promise<void>;
+  signInWithPassword: (email: string, password: string, captchaToken?: string) => Promise<void>;
   signUpWithPassword: (input: SignUpInput) => Promise<{ needsEmailConfirm: boolean }>;
-  sendPasswordReset: (email: string) => Promise<void>;
+  sendPasswordReset: (email: string, captchaToken?: string) => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
   updateProfile: (patch: Partial<Profile>) => Promise<void>;
@@ -153,9 +153,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [signInWithProvider],
   );
 
-  const signInWithPassword = useCallback(async (email: string, password: string) => {
+  const signInWithPassword = useCallback(async (email: string, password: string, captchaToken?: string) => {
     const sb = requireConfigured();
-    const { error } = await sb.auth.signInWithPassword({ email, password });
+    const { error } = await sb.auth.signInWithPassword({
+      email,
+      password,
+      options: { captchaToken: captchaToken ?? undefined },
+    });
     if (error) throw error;
   }, []);
 
@@ -178,10 +182,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { needsEmailConfirm: !data.session };
   }, []);
 
-  const sendPasswordReset = useCallback(async (email: string) => {
+  const sendPasswordReset = useCallback(async (email: string, captchaToken?: string) => {
     const sb = requireConfigured();
     const { error } = await sb.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/callback?next=/profil`,
+      captchaToken: captchaToken ?? undefined,
     });
     if (error) throw error;
   }, []);

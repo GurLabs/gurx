@@ -76,6 +76,7 @@ export const Turnstile: React.FC<TurnstileProps> = ({ onVerify, onExpire, classN
         if (cancelled || !holder.current || !window.turnstile) return;
         widgetId.current = window.turnstile.render(holder.current, {
           sitekey: SITE_KEY,
+          action: 'turnstile-spin-v2',
           theme: resolved,
           callback: (token) => onVerify(token),
           'expired-callback': () => onExpire?.(),
