@@ -20,9 +20,14 @@ create table if not exists public.profiles (
   id            uuid primary key references auth.users (id) on delete cascade,
   email         text not null,
   full_name     text,
+  username      text unique,
   birth_year    int,
   avatar_url    text,
+  bio           text,
+  is_public     boolean not null default true,
   role          user_role not null default 'participant',
+  staff_role    staff_role,
+  staff_title   text,
   country       text,
   portfolio_url text,
   github_url    text,
@@ -31,6 +36,14 @@ create table if not exists public.profiles (
   referred_by   text,
   created_at    timestamptz not null default now()
 );
+
+alter table public.profiles add column if not exists username text unique;
+alter table public.profiles add column if not exists bio text;
+alter table public.profiles add column if not exists is_public boolean not null default true;
+alter table public.profiles add column if not exists staff_role staff_role;
+alter table public.profiles add column if not exists staff_title text;
+alter table public.profiles add column if not exists referral_code text unique;
+alter table public.profiles add column if not exists referred_by text;
 
 create or replace function public.extract_signup_email(u auth.users)
 returns text language sql immutable as $$
