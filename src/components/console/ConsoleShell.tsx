@@ -132,7 +132,7 @@ export const ConsoleShell: React.FC<ConsoleShellProps> = ({
           {/* GurX first, Foundation second — same order everywhere. */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <GurxMark className="h-7" />
-            <FoundationLogo className="h-8" />
+            <FoundationLogo className="h-9" />
             <span className="hidden sm:inline text-xs text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-2.5 ml-1">
               {areaLabel}
             </span>

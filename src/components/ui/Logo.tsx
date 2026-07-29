@@ -59,7 +59,7 @@ export const Logo: React.FC<LogoProps> = ({
   to = '/',
 }) => {
   const hGurx = size === 'sm' ? 'h-6' : 'h-8';
-  const hFoundation = size === 'sm' ? 'h-7' : 'h-9';
+  const hFoundation = size === 'sm' ? 'h-8' : 'h-10';
 
   return (
     <Link to={to} className={`flex items-center gap-3 select-none group ${className}`}>
