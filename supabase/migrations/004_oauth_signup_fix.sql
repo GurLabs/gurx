@@ -84,7 +84,7 @@ begin
     nullif(new.raw_user_meta_data ->> 'avatar_url', ''),
     v_role,
     nullif(new.raw_user_meta_data ->> 'referred_by', ''),
-    upper(substr(encode(gen_random_bytes(6), 'hex'), 1, 8))
+    upper(substr(md5(random()::text || new.id::text), 1, 8))
   )
   on conflict (id) do nothing;
 
