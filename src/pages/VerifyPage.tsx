@@ -11,6 +11,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import { Turnstile, isTurnstileEnabled } from '../components/ui/Turnstile';
+import { FoundationLogo, GurxMark } from '../components/ui/Logo';
 import { Spinner } from '../components/ui/Feedback';
 import { useAsync } from '../hooks/useAsync';
 import { useSeo } from '../hooks/useSeo';
@@ -32,18 +33,9 @@ const VerifyShell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <header className="border-b border-slate-200 bg-white">
       <div className="max-w-3xl mx-auto px-5 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <img
-            src="/gurx-logo.png"
-            alt="GurX™"
-            width={92}
-            height={26}
-            className="h-6 w-auto object-contain"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
-            }}
-          />
+          <GurxMark className="h-6" />
           <span className="w-px h-5 bg-slate-200" aria-hidden />
-          <img src="/gf-l.png" alt="GurLabs Foundation™" width={24} height={24} className="h-6 w-auto object-contain" />
+          <FoundationLogo className="h-6" />
         </div>
 
         <span className="text-xs font-semibold text-slate-500">Sertifika Doğrulama Servisi</span>

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ExternalLink, LogOut, Menu, Search, Shield, UserRound, X } from 'lucide-react';
 import { ConsoleNavSkeleton } from '../ui/Skeleton';
+import { FoundationLogo, GurxMark } from '../ui/Logo';
 import type { NavSection } from './nav';
 import { useAuth } from '../../context/AuthContext';
 import { initialsOf } from '../../lib/format';
@@ -130,24 +131,9 @@ export const ConsoleShell: React.FC<ConsoleShellProps> = ({
 
           {/* GurX first, Foundation second — same order everywhere. */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <img
-              src="/gurx-logo.png"
-              alt="GurX™"
-              width={96}
-              height={28}
-              className="h-7 w-auto object-contain"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = 'none';
-              }}
-            />
-            <img
-              src="/gf-l.png"
-              alt="GurLabs Foundation™"
-              width={28}
-              height={28}
-              className="h-7 w-auto object-contain"
-            />
-            <span className="hidden sm:inline text-xs text-slate-400 border-l border-slate-200 pl-2.5 ml-1">
+            <GurxMark className="h-7" />
+            <FoundationLogo className="h-7" />
+            <span className="hidden sm:inline text-xs text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-2.5 ml-1">
               {areaLabel}
             </span>
           </Link>
