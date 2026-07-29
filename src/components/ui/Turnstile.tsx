@@ -15,6 +15,7 @@ declare global {
         el: HTMLElement,
         opts: {
           sitekey: string;
+          action?: string;
           theme?: 'light' | 'dark' | 'auto';
           callback: (token: string) => void;
           'expired-callback'?: () => void;
