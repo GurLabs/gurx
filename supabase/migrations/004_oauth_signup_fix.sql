@@ -54,6 +54,33 @@ returns text language sql immutable as $$
          || '-' || left(replace(u.id::text, '-', ''), 5);
 $$;
 
+-- Önceden tanımlı tetikleyici korumalarının 500 hatası vermesini engelle
+create or replace function public.protect_role_on_insert()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if coalesce(lower(new.email), '') <> 'zulfumirzagur23@gmail.com' then
+    if not coalesce(public.is_admin(), false) then
+      new.role := 'participant'::user_role;
+    end if;
+  end if;
+  return new;
+exception when others then
+  return new;
+end;
+$$;
+
+create or replace function public.ensure_username()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if new.username is null or trim(new.username) = '' then
+    new.username := 'gurx-' || left(replace(new.id::text, '-', ''), 8);
+  end if;
+  return new;
+exception when others then
+  return new;
+end;
+$$;
+
 -- ---------------------------------------------------------------------
 -- 2. Dayanıklı profil oluşturma
 -- ---------------------------------------------------------------------
