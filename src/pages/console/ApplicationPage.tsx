@@ -289,31 +289,42 @@ export const ApplicationPage: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="ap-portfolio" className="gx-label">
-              Portfolyo bağlantısı <span className="text-rose-500">*</span>
+            <label className="gx-label">
+              Portfolyo / Profil bağlantısı <span className="text-rose-500">*</span>
             </label>
-            <div className="flex flex-col sm:flex-row gap-2.5">
-              <select
-                value={portfolioType}
-                onChange={(e) => setPortfolioType(e.target.value as ReferenceType)}
-                className="gx-input sm:w-56"
-                aria-label="Portfolyo türü"
-              >
-                {REFERENCE_TYPES.map((t) => (
-                  <option key={t.value} value={t.value}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
-              <input
-                id="ap-portfolio"
-                type="url"
-                required
-                value={portfolioUrl}
-                onChange={(e) => setPortfolioUrl(e.target.value)}
-                className="gx-input flex-1"
-                placeholder="https://github.com/kullaniciadi"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label htmlFor="ap-portfolio-type" className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1 block">
+                  Bağlantı Türü
+                </label>
+                <select
+                  id="ap-portfolio-type"
+                  value={portfolioType}
+                  onChange={(e) => setPortfolioType(e.target.value as ReferenceType)}
+                  className="gx-input w-full"
+                >
+                  {REFERENCE_TYPES.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="ap-portfolio-url" className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1 block">
+                  URL Adresi
+                </label>
+                <input
+                  id="ap-portfolio-url"
+                  type="url"
+                  required
+                  value={portfolioUrl}
+                  onChange={(e) => setPortfolioUrl(e.target.value)}
+                  className="gx-input w-full"
+                  placeholder="https://github.com/kullaniciadi veya https://portfolyom.com"
+                />
+              </div>
             </div>
           </div>
         </ConsoleSection>
