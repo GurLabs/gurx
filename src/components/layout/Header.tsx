@@ -54,7 +54,7 @@ export const Header: React.FC = () => {
           }`}
           aria-label="Ana menü"
         >
-          <Logo withFoundation={true} size={scrolled ? 'sm' : 'md'} />
+          <Logo withFoundation={false} size={scrolled ? 'sm' : 'md'} />
 
           <div className="hidden lg:flex items-center gap-7 text-sm font-semibold">
             {NAV.map((item) => (
