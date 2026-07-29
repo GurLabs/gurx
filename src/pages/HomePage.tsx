@@ -81,7 +81,7 @@ const FLOW = [
     step: '01',
     icon: Users,
     title: 'Kayıt & başvuru',
-    body: 'Hesabınızı oluşturun, başvuru formunu doldurun. 1 adet Vibe Coding web sitesi ve 1 adet portfolyo (kendi siteniz, LinkedIn veya GitHub) referansı gerekir.',
+    body: 'Hesabınızı oluşturun ve başvuru formunu doldurun. Yaş kontrolünü onayladıktan sonra anında maratona katılabilirsiniz.',
   },
   {
     step: '02',

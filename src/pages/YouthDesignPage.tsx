@@ -35,16 +35,6 @@ import { useAuth } from '../context/AuthContext';
 
 const REQUIREMENTS = [
   {
-    icon: Layers,
-    title: '1 adet Vibe Coding web sitesi',
-    body: 'Daha önce Vibe Coding ile ürettiğiniz bir web sitesini referans olarak gösterirsiniz. Yayında ve erişilebilir olmalıdır.',
-  },
-  {
-    icon: Globe,
-    title: '1 adet portfolyo bağlantısı',
-    body: 'Kendi kişisel siteniz, LinkedIn profiliniz veya GitHub profiliniz portfolyo olarak kabul edilir.',
-  },
-  {
     icon: Users,
     title: 'Yaş koşulu',
     body: '15 – 21 yaş arası. 22 yaşından küçük olmalısınız; 15 yaş ve altındaysanız veli izni onayı gerekir.',
@@ -53,6 +43,16 @@ const REQUIREMENTS = [
     icon: FileText,
     title: 'Doğru kimlik bilgileri',
     body: 'Ad soyad, e-posta ve doğum yılı; sertifikanız bu bilgilerle düzenlenir.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Vibe Coding kabulü',
+    body: 'Projemi aistudio.google.com üzerinde Vibe Coding ile tasarlayacağınızı kabul etmeniz gereklidir.',
+  },
+  {
+    icon: Award,
+    title: 'Ücretsiz katılım',
+    body: 'Katılım tamamen ücretsizdir. Başvurunuzu gönderip doğrudan yarışmaya katılabilirsiniz.',
   },
 ];
 
@@ -287,22 +287,6 @@ export const YouthDesignPage: React.FC = () => {
                   <p className="text-sm text-slate-600 leading-relaxed">{body}</p>
                 </article>
               </Reveal>
-            ))}
-          </div>
-
-          <div className="gx-card p-6 flex flex-wrap items-center gap-4">
-            <p className="text-sm text-slate-600 flex-1 min-w-[240px]">
-              Portfolyo olarak kabul edilenler:
-            </p>
-            {[
-              { icon: Globe, label: 'Kendi web siteniz' },
-              { icon: Linkedin, label: 'LinkedIn profili' },
-              { icon: Github, label: 'GitHub profili' },
-            ].map(({ icon: Icon, label }) => (
-              <span key={label} className="gx-pill">
-                <Icon className="w-3.5 h-3.5" />
-                {label}
-              </span>
             ))}
           </div>
         </div>

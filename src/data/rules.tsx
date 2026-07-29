@@ -45,24 +45,17 @@ export const RULE_ARTICLES: RuleArticle[] = [
   },
   {
     id: 'referans',
-    title: '3. Başvuru Referansları',
+    title: '3. Başvuru Koşulları',
     paragraphs: [
       <>
-        Başvurunuzun geçerli sayılabilmesi için iki referans bağlantısı sunmanız gerekir. Her iki
-        bağlantı da başvuru tarihinde herkese açık ve erişilebilir olmalıdır.
+        GurX™ yarışmalarına katılım tamamen ücretsizdir. Başvuru formunu dolduran tüm katılımcılar yarışmaya doğrudan katılabilir.
       </>,
     ],
     items: [
-      <>
-        <strong>1 adet Vibe Coding web sitesi:</strong> Daha önce Vibe Coding yöntemiyle
-        ürettiğiniz, yayında olan bir web sitesi.
-      </>,
-      <>
-        <strong>1 adet portfolyo bağlantısı:</strong> Kendi kişisel web siteniz, LinkedIn profiliniz
-        veya GitHub profiliniz kabul edilir.
-      </>,
-      'Erişilemeyen, parola korumalı veya silinmiş bağlantılar başvuruyu geçersiz kılar.',
-      'Referans olarak sunulan çalışmanın size ait olması zorunludur.',
+      'Ad soyad, e-posta ve doğum yılı bilgilerinizin doğru ve eksiksiz olması zorunludur.',
+      '15 - 21 yaş arasındaki tüm tasarımcılar ve geliştiriciler başvuru yapabilir.',
+      '15 yaş ve altındaki katılımcılar için veli izni onayı gereklidir.',
+      'Tüm katılımcıların GurX™ etik ve kural ilkelerine uyması beklenir.',
     ],
   },
   {

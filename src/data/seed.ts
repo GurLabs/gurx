@@ -42,7 +42,7 @@ export const SEED_ANNOUNCEMENTS: Announcement[] = [
     id: 'a1',
     competition_id: YOUTH_COMPETITION.id,
     title: 'Başvurular açıldı',
-    body: 'GurX Youth Design 2026 başvuruları açıldı. Referans tasarımınızı ve portfolyo bağlantınızı hazırlayın; kontenjan sınırlıdır.',
+    body: 'GurX Youth Design 2026 başvuruları açıldı. Başvuru formunu doldurup anında yarışmaya kaydolabilirsiniz; kontenjan sınırlıdır.',
     is_pinned: true,
     published_at: inDays(-12),
     audience: 'public',

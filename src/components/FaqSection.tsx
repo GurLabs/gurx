@@ -34,9 +34,9 @@ export const DEFAULT_FAQ: FaqItem[] = [
   {
     question: 'Başvuru için neler gerekiyor?',
     answer:
-      'Referans olarak 1 adet Vibe Coding ile yapılmış web sitesi ve 1 adet portfolyo bağlantısı istiyoruz. Portfolyo olarak kendi siteniz, LinkedIn veya GitHub profiliniz kabul edilir.',
+      'Hesabınızı oluşturup ad, soyad ve doğum yılı bilgilerinizi girmeniz yeterlidir. Katılım tamamen ücretsizdir ve herhangi bir ön çalışma gerekmez.',
     plain:
-      'Başvuru için 1 adet Vibe Coding web sitesi ve 1 adet portfolyo (kendi siteniz, LinkedIn veya GitHub) bağlantısı gereklidir.',
+      'Hesabınızı oluşturup doğum yılı bilgilerinizi doğrulamanız yeterlidir. Katılım tamamen ücretsizdir.',
   },
   {
     question: 'Yarışma nasıl işliyor?',
