@@ -12,9 +12,9 @@ export const GurxMark: React.FC<{ className?: string }> = ({ className = 'h-8' }
 
   if (failed) {
     return (
-      <span className="font-serif text-3xl text-slate-900 leading-none flex items-start">
+      <span className="font-serif text-3xl text-slate-900 dark:text-white leading-none flex items-start">
         GurX
-        <span className="text-[0.5rem] font-sans font-semibold text-slate-500 mt-1 ml-0.5">™</span>
+        <span className="text-[0.5rem] font-sans font-semibold text-slate-500 dark:text-slate-400 mt-1 ml-0.5">™</span>
       </span>
     );
   }
@@ -31,14 +31,14 @@ export const GurxMark: React.FC<{ className?: string }> = ({ className = 'h-8' }
   );
 };
 
-export const FoundationLogo: React.FC<{ className?: string }> = ({ className = 'h-8' }) => {
+export const FoundationLogo: React.FC<{ className?: string }> = ({ className = 'h-9' }) => {
   const { resolved } = useTheme();
   return (
     <img
       src={resolved === 'dark' ? '/gf-logo-white.png' : '/gf-l.png'}
       alt="GurLabs Foundation™"
-      width={32}
-      height={32}
+      width={36}
+      height={36}
       className={`${className} w-auto object-contain`}
     />
   );
@@ -58,15 +58,16 @@ export const Logo: React.FC<LogoProps> = ({
   size = 'md',
   to = '/',
 }) => {
-  const h = size === 'sm' ? 'h-6' : 'h-8';
+  const hGurx = size === 'sm' ? 'h-6' : 'h-8';
+  const hFoundation = size === 'sm' ? 'h-7' : 'h-9';
 
   return (
     <Link to={to} className={`flex items-center gap-3 select-none group ${className}`}>
-      <GurxMark className={`${h} transition-transform group-hover:scale-[1.03]`} />
+      <GurxMark className={`${hGurx} transition-transform group-hover:scale-[1.03]`} />
       {withFoundation && (
         <>
-          <span className="w-px h-6 bg-slate-200" aria-hidden />
-          <FoundationLogo className={h} />
+          <span className="w-px h-6 bg-slate-200 dark:bg-slate-800" aria-hidden />
+          <FoundationLogo className={`${hFoundation} transition-transform group-hover:scale-[1.05]`} />
         </>
       )}
     </Link>
@@ -74,7 +75,7 @@ export const Logo: React.FC<LogoProps> = ({
 };
 
 export const FoundationMark: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <span className={`font-semibold text-slate-900 ${className}`}>
+  <span className={`font-semibold text-slate-900 dark:text-white ${className}`}>
     GurLabs Foundation<span className="align-super text-[0.6em]">™</span>
   </span>
 );
