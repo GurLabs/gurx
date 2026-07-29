@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
 import { AuthShell, AuthDivider, GitHubButton, GoogleButton } from '../components/auth/AuthShell';
 import { Alert, Spinner } from '../components/ui/Feedback';
+import { Turnstile, isTurnstileEnabled } from '../components/ui/Turnstile';
 import { useAuth } from '../context/AuthContext';
 import { useSeo } from '../hooks/useSeo';
 import { authErrorMessage } from '../lib/authErrors';
@@ -16,6 +17,7 @@ export const LoginPage: React.FC = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(params.get('error'));
   const [notice, setNotice] = useState<string | null>(null);
@@ -33,9 +35,15 @@ export const LoginPage: React.FC = () => {
     e.preventDefault();
     setError(null);
     setNotice(null);
+
+    if (isTurnstileEnabled && !captchaToken) {
+      setError('Lütfen güvenlik doğrulamasını tamamlayın.');
+      return;
+    }
+
     setBusy(true);
     try {
-      await signInWithPassword(email.trim(), password);
+      await signInWithPassword(email.trim(), password, captchaToken ?? undefined);
       navigate(next, { replace: true });
     } catch (err) {
       setError(authErrorMessage(err, 'Giriş yapılamadı.'));
@@ -60,8 +68,12 @@ export const LoginPage: React.FC = () => {
       setError('Sıfırlama bağlantısı için önce e-posta adresinizi yazın.');
       return;
     }
+    if (isTurnstileEnabled && !captchaToken) {
+      setError('Şifre sıfırlamak için lütfen güvenlik doğrulamasını tamamlayın.');
+      return;
+    }
     try {
-      await sendPasswordReset(email.trim());
+      await sendPasswordReset(email.trim(), captchaToken ?? undefined);
       setNotice('Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sıfırlama e-postası gönderilemedi.');
@@ -137,6 +149,8 @@ export const LoginPage: React.FC = () => {
             placeholder="••••••••"
           />
         </div>
+
+        <Turnstile onVerify={setCaptchaToken} onExpire={() => setCaptchaToken(null)} />
 
         <button type="submit" disabled={!configured || busy} className="gx-btn-primary w-full !py-3">
           {busy ? <Spinner className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
