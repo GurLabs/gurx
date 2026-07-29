@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import { Layout } from './components/layout/Layout';
 import { RequireAuth, RequireRole } from './components/RouteGuards';
 import { AdminConsole, ParticipantConsole } from './components/console/ConsoleLayouts';
@@ -175,7 +176,8 @@ const standalone = (element: React.ReactNode) => (
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <Routes>
       {/* Standalone surfaces — own chrome, outside the marketing shell */}
       <Route path="/certificate/:code/belge" element={standalone(<CertificateDocumentPage />)} />
       <Route path="/dogrula" element={standalone(<VerifyPage />)} />
@@ -260,6 +262,8 @@ export default function App() {
           <Route path="destek/:id" element={<TicketThreadPage staffView />} />
         </Route>
       </Route>
-    </Routes>
+      </Routes>
+      <Analytics />
+    </>
   );
 }
