@@ -40,6 +40,11 @@ const MAP: { match: RegExp; message: string }[] = [
     message:
       'Bu giriş yöntemi Supabase tarafında etkin değil. Authentication → Providers altından açın.',
   },
+  {
+    match: /captcha protection|no captcha_token/i,
+    message:
+      'Supabase paneline Bot/Captcha koruması açık ama captcha token gönderilmedi. Supabase Dashboard → Authentication → Security altından Captcha Protection seçeneğini kapatın veya .env dosyanıza VITE_TURNSTILE_SITE_KEY ekleyin.',
+  },
 ];
 
 export function authErrorMessage(err: unknown, fallback: string): string {
