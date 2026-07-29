@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   ArrowUpRight,
+  Award,
   BadgeCheck,
   CalendarClock,
   CheckCircle2,
