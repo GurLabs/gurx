@@ -33,13 +33,12 @@ export const GurxMark: React.FC<{ className?: string }> = ({ className = 'h-8' }
 
 export const FoundationLogo: React.FC<{ className?: string }> = ({ className = 'h-9' }) => {
   const { resolved } = useTheme();
+  const isDark = resolved === 'dark';
   return (
     <img
-      src={resolved === 'dark' ? '/gf-logo-white.png' : '/gf-l.png'}
+      src={isDark ? '/gf-logo-white.png' : '/gf-l.png'}
       alt="GurLabs Foundation™"
-      width={36}
-      height={36}
-      className={`${className} w-auto object-contain`}
+      className={`${className} w-auto object-contain shrink-0 ${isDark ? 'scale-125 origin-center' : ''}`}
     />
   );
 };
