@@ -68,6 +68,15 @@ export const Turnstile: React.FC<TurnstileProps> = ({ onVerify, onExpire, classN
   const { resolved } = useTheme();
   const domId = useId();
 
+  // Store latest callbacks in refs so changing parent function references doesn't re-render/reset the widget
+  const onVerifyRef = useRef(onVerify);
+  const onExpireRef = useRef(onExpire);
+
+  useEffect(() => {
+    onVerifyRef.current = onVerify;
+    onExpireRef.current = onExpire;
+  }, [onVerify, onExpire]);
+
   useEffect(() => {
     if (!SITE_KEY) return;
     let cancelled = false;
@@ -75,12 +84,14 @@ export const Turnstile: React.FC<TurnstileProps> = ({ onVerify, onExpire, classN
     loadScript()
       .then(() => {
         if (cancelled || !holder.current || !window.turnstile) return;
+        if (widgetId.current) return;
+
         widgetId.current = window.turnstile.render(holder.current, {
           sitekey: SITE_KEY,
           action: 'turnstile-spin-v2',
           theme: resolved,
-          callback: (token) => onVerify(token),
-          'expired-callback': () => onExpire?.(),
+          callback: (token) => onVerifyRef.current(token),
+          'expired-callback': () => onExpireRef.current?.(),
           'error-callback': () => setError('Doğrulama başarısız oldu. Sayfayı yenileyip deneyin.'),
         });
       })
@@ -100,7 +111,7 @@ export const Turnstile: React.FC<TurnstileProps> = ({ onVerify, onExpire, classN
       }
     };
     // Re-rendering on theme change keeps the widget readable in both themes.
-  }, [resolved, onVerify, onExpire]);
+  }, [resolved]);
 
   if (!SITE_KEY) {
     return (
