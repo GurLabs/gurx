@@ -16,6 +16,9 @@ import {Alert, EmptyState, Spinner} from '../ui/Feedback';
 import { CardGridSkeleton, TableSkeleton } from '../ui/Skeleton';
 import { useAsync } from '../../hooks/useAsync';
 import {
+  adminApproveAllApplications,
+  getAutoApproveSetting,
+  setAutoApproveSetting,
   adminCreateAnnouncement,
   adminDeleteAnnouncement,
   adminIssueAttendeeCertificates,
@@ -73,6 +76,26 @@ export const ApplicationsPanel: React.FC<{ competitionId: string }> = ({ competi
   );
   const [busyId, setBusyId] = useState<string | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [autoApprove, setAutoApprove] = useState<boolean>(() => getAutoApproveSetting());
+  const [bulkBusy, setBulkBusy] = useState(false);
+
+  const handleToggleAutoApprove = (enabled: boolean) => {
+    setAutoApprove(enabled);
+    setAutoApproveSetting(enabled);
+  };
+
+  const handleApproveAll = async () => {
+    setActionError(null);
+    setBulkBusy(true);
+    try {
+      await adminApproveAllApplications(competitionId);
+      reload();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Toplu onaylama başarısız.');
+    } finally {
+      setBulkBusy(false);
+    }
+  };
 
   const setStatus = async (id: string, status: 'approved' | 'rejected' | 'pending') => {
     setActionError(null);
@@ -100,6 +123,52 @@ export const ApplicationsPanel: React.FC<{ competitionId: string }> = ({ competi
         <StatTile label="Toplam başvuru" value={rows.length} />
         <StatTile label="Bekleyen" value={pending} />
         <StatTile label="Onaylı" value={approved} />
+      </div>
+
+      {/* Auto Approve Switch Toggle Card */}
+      <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-slate-900 dark:text-white">Otomatik Başvuru Onayı</span>
+            <span
+              className={`text-[0.65rem] font-bold px-2.5 py-0.5 rounded-full ${
+                autoApprove
+                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800'
+                  : 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800'
+              }`}
+            >
+              {autoApprove ? 'AKTİF' : 'PASİF'}
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {autoApprove
+              ? 'Etkinleştirildi: Yeni katılan tüm başvurular inceleme beklemeden anında otomatik onaylanır.'
+              : 'Devre dışı: Yeni gelen başvurular admin incelemesi için bekleyen durumunda tutulur.'}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          {pending > 0 && (
+            <button
+              onClick={handleApproveAll}
+              disabled={bulkBusy}
+              className="gx-btn-ghost !text-xs !py-2 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
+            >
+              {bulkBusy ? <Spinner className="w-3.5 h-3.5" /> : <Check className="w-3.5 h-3.5 text-emerald-600" />}
+              {pending} Bekleyen Başvuruyu Onayla
+            </button>
+          )}
+
+          <label className="relative inline-flex items-center cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={autoApprove}
+              onChange={(e) => handleToggleAutoApprove(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+          </label>
+        </div>
       </div>
 
       {actionError && <Alert tone="error">{actionError}</Alert>}

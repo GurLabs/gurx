@@ -29,6 +29,27 @@ export async function adminListApplications(competitionId: string): Promise<Appl
   return (data as Application[]) ?? [];
 }
 
+const AUTO_APPROVE_KEY = 'gurx_auto_approve_applications';
+
+export function getAutoApproveSetting(): boolean {
+  const val = localStorage.getItem(AUTO_APPROVE_KEY);
+  return val === null ? true : val === 'true';
+}
+
+export function setAutoApproveSetting(enabled: boolean): void {
+  localStorage.setItem(AUTO_APPROVE_KEY, String(enabled));
+}
+
+export async function adminApproveAllApplications(competitionId: string): Promise<void> {
+  const sb = requireSupabase();
+  const { error } = await sb
+    .from('applications')
+    .update({ status: 'approved' })
+    .eq('competition_id', competitionId)
+    .eq('status', 'pending');
+  if (error) throw new Error(error.message);
+}
+
 export async function adminSetApplicationStatus(
   id: string,
   status: ApplicationStatus,

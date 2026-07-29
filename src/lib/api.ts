@@ -1,5 +1,6 @@
 import { supabase } from './supabase';
 import { YOUTH_SLUG } from './brand';
+import { getAutoApproveSetting } from './admin';
 import {
   SEED_ANNOUNCEMENTS,
   SEED_CERTIFICATES,
@@ -281,9 +282,10 @@ export async function submitApplication(
   payload: Omit<Application, 'id' | 'created_at' | 'participant_no' | 'status' | 'note'>,
 ): Promise<Application> {
   if (!supabase) throw new Error('Başvuru için Supabase bağlantısı gereklidir.');
+  const initialStatus = getAutoApproveSetting() ? 'approved' : 'pending';
   const { data, error } = await supabase
     .from('applications')
-    .upsert({ ...payload, status: 'pending' }, { onConflict: 'user_id,competition_id' })
+    .upsert({ ...payload, status: initialStatus }, { onConflict: 'user_id,competition_id' })
     .select()
     .single();
   if (error) throw new Error(error.message);
