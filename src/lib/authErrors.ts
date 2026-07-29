@@ -33,7 +33,7 @@ const MAP: { match: RegExp; message: string }[] = [
   {
     match: /database error saving new user|unexpected_failure/i,
     message:
-      'Hesap oluşturulurken veritabanı hatası oluştu. Bu genellikle profil oluşturma tetikleyicisinden kaynaklanır — supabase/migrations/004_oauth_signup_fix.sql dosyasını çalıştırın.',
+      'Hesap oluşturulurken veritabanı hatası oluştu. Lütfen Supabase SQL Editor üzerinden migration 004 sorgusunu çalıştırın.',
   },
   {
     match: /captcha protection: request disallowed \(timeout-or-duplicate\)/i,
@@ -53,8 +53,33 @@ const MAP: { match: RegExp; message: string }[] = [
 ];
 
 export function authErrorMessage(err: unknown, fallback: string): string {
-  const raw = err instanceof Error ? err.message : typeof err === 'string' ? err : '';
-  if (!raw) return fallback;
+  if (!err) return fallback;
+
+  let raw = '';
+  if (typeof err === 'string') {
+    raw = err;
+  } else if (err instanceof Error) {
+    raw = err.message;
+  } else if (typeof err === 'object') {
+    const obj = err as Record<string, unknown>;
+    if (typeof obj.message === 'string' && obj.message && obj.message !== '{}') {
+      raw = obj.message;
+    } else if (typeof obj.error_description === 'string' && obj.error_description) {
+      raw = obj.error_description;
+    } else if (typeof obj.msg === 'string' && obj.msg) {
+      raw = obj.msg;
+    } else {
+      try {
+        const str = JSON.stringify(err);
+        if (str && str !== '{}') raw = str;
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
+  if (!raw || raw.trim() === '{}' || raw.trim() === '') return fallback;
+
   const hit = MAP.find((m) => m.match.test(raw));
   return hit ? hit.message : raw;
 }
