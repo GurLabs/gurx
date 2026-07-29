@@ -36,6 +36,16 @@ const MAP: { match: RegExp; message: string }[] = [
       'Hesap oluşturulurken veritabanı hatası oluştu. Bu genellikle profil oluşturma tetikleyicisinden kaynaklanır — supabase/migrations/004_oauth_signup_fix.sql dosyasını çalıştırın.',
   },
   {
+    match: /captcha protection: request disallowed \(timeout-or-duplicate\)/i,
+    message:
+      'Güvenlik doğrulamasının (Captcha) süresi doldu. Lütfen aşağıdaki güvenlik kutucuğunu tekrar işaretleyin.',
+  },
+  {
+    match: /captcha protection: request disallowed|no captcha_token/i,
+    message:
+      'Güvenlik doğrulaması (Captcha) gerekli. Lütfen formun altındaki güvenlik kutucuğunu işaretleyin.',
+  },
+  {
     match: /provider is not enabled|unsupported provider/i,
     message:
       'Bu giriş yöntemi Supabase tarafında etkin değil. Authentication → Providers altından açın.',

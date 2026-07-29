@@ -47,6 +47,14 @@ export const LoginPage: React.FC = () => {
       navigate(next, { replace: true });
     } catch (err) {
       setError(authErrorMessage(err, 'Giriş yapılamadı.'));
+      setCaptchaToken(null);
+      if (window.turnstile) {
+        try {
+          window.turnstile.reset();
+        } catch {
+          /* ignore */
+        }
+      }
     } finally {
       setBusy(false);
     }

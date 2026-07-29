@@ -80,6 +80,14 @@ export const RegisterPage: React.FC = () => {
       }
     } catch (err) {
       setError(authErrorMessage(err, 'Kayıt tamamlanamadı.'));
+      setCaptchaToken(null);
+      if (window.turnstile) {
+        try {
+          window.turnstile.reset();
+        } catch {
+          /* ignore */
+        }
+      }
     } finally {
       setBusy(false);
     }
